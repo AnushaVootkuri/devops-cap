@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevOps Capstone</title>
+</head>
+
+<body>
+
+    <h1>DevOps Capstone Application</h1>
+
+    <p>Frontend is running successfully.</p>
+
+    <button onclick="checkBackend()">
+        Check Backend
+    </button>
+
+    <p id="result"></p>
+
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch("http://localhost:8000/health");
+                const data = await response.json();
+
+                document.getElementById("result").innerText =
+                    "Backend says: " + data.status;
+            }
+            catch (error) {
+                document.getElementById("result").innerText =
+                    "Backend connection failed";
+            }
+        }
+    </script>
+
+</body>
+</html>
