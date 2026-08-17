@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
+import os
 
 app = FastAPI()
 
@@ -29,19 +30,15 @@ def health():
     }
 
 
-@app.get("/products" \
-"" \
-"" \
-"" \
-"")
+@app.get("/products")
 def products():
 
     connection = psycopg2.connect(
-        host="postgres",
-        port=5432,
-        database="devopsdb",
-        user="devopsuser",
-        password="devopspass"
+        host=os.getenv("POSTGRES_HOST"),
+        port=os.getenv("POSTGRES_PORT"),
+        database=os.getenv("POSTGRES_DB"),
+        user=os.getenv("POSTGRES_USER"),
+        password=os.getenv("POSTGRES_PASSWORD")
     )
 
     cursor = connection.cursor()
