@@ -63,4 +63,3 @@ def products():
             for row in rows
         ]
     }
-THIS IS INVALID PYTHON
