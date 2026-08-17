@@ -37,7 +37,7 @@ def health():
 def products():
 
     connection = psycopg2.connect(
-        host="localhost",
+        host="postgres",
         port=5432,
         database="devopsdb",
         user="devopsuser",
