@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: backend
+ namespace: devops-capstone
+spec:
+ replicas: 1
+
+ selector:
+   matchLabels:
+     app: backend
+
+ template:
+   metadata:
+     labels:
+       app: backend
+
+   spec:
+     containers:
+       - name: backend
+         image: 293930531475.dkr.ecr.us-east-1.amazonaws.com/devops-capstone-backend:1.0
+
+         ports:
+           - containerPort: 8000
+         env:
+          - name: POSTGRES_HOST
+            value: postgres
+
+          - name: POSTGRES_PORT
+            value: "5432"
+
+          - name: POSTGRES_DB
+            value: devopsdb
+
+          - name: POSTGRES_USER
+            value: devopsuser
+
+          - name: POSTGRES_PASSWORD
+            value: devopspass
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: backend
+ namespace: devops-capstone
+spec:
+ selector:
+   app: backend
+
+ ports:
+   - port: 8000
+     targetPort: 8000
+
+ type: ClusterIP
+
