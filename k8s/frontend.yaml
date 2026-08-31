@@ -18,7 +18,7 @@ spec:
    spec:
      containers:
        - name: frontend
-         image: 293930531475.dkr.ecr.us-east-1.amazonaws.com/devops-capstone-frontend:1.0
+         image: 293930531475.dkr.ecr.us-east-1.amazonaws.com/devops-capstone-frontend:2.0
 
          ports:
            - containerPort: 3000
