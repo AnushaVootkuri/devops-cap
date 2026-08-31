@@ -1,8 +1,25 @@
+
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Terraform crash logs
+crash.log
+crash.*.log
+*.log
+
+# macOS
+.DS_Store
+
+# Python
 __pycache__/
 *.pyc
-.DS_Store
-.env
-*.log
 .venv/
+
+# Environment/secrets
+.env
 .env.*
 !.env.example
