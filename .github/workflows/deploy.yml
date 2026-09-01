@@ -34,3 +34,41 @@ jobs:
          pip install -r backend/requirements.txt
 
          python -m compileall backend
+
+
+deploy:
+   name: Deploy to EKS
+   needs: build-and-push
+   runs-on: ubuntu-latest
+
+   steps:
+
+     - name: Checkout code
+       uses: actions/checkout@v4
+
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v5
+       with:
+         role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+         aws-region: ${{ env.AWS_REGION }}
+
+     - name: Get AWS account ID
+       run: |
+         echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" >> $GITHUB_ENV
+
+     - name: Configure kubectl
+       run: |
+         aws eks update-kubeconfig \
+           --region $AWS_REGION \
+           --name $EKS_CLUSTER_NAME
+
+     - name: Verify cluster
+       run: |
+         kubectl get nodes
+
+     - name: Update backend image
+       run: |
+         kubectl set image deployment/backend \
+           backend=AWSACCOUNTID.dkr.ecr.AWS_REGION.amazonaws.com/ECRBACKENDREPOSITORY:{GITHUB_SHA} \
+           -n devops-capstone
+
