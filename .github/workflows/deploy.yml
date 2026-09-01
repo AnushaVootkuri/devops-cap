@@ -1,0 +1,36 @@
+name: DevOps Capstone CI/CD
+
+on:
+ push:
+   branches:
+     - main
+
+ workflow_dispatch:
+
+permissions:
+ id-token: write
+ contents: read
+
+env:
+ AWS_REGION: ${{ vars.AWS_REGION }}
+ EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }}
+ ECR_BACKEND_REPOSITORY: ${{ vars.ECR_BACKEND_REPOSITORY }}
+ ECR_FRONTEND_REPOSITORY: ${{ vars.ECR_FRONTEND_REPOSITORY }}
+
+jobs:
+
+ test:
+   name: Test Application
+   runs-on: ubuntu-latest
+
+   steps:
+
+     - name: Checkout code
+       uses: actions/checkout@v4
+
+     - name: Test backend
+       run: |
+         python -m pip install --upgrade pip
+         pip install -r backend/requirements.txt
+
+         python -m compileall backend
