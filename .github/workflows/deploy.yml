@@ -36,7 +36,7 @@ jobs:
          python -m compileall backend
 
 
-deploy:
+ deploy:
    name: Deploy to EKS
    needs: build-and-push
    runs-on: ubuntu-latest
