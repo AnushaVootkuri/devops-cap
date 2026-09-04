@@ -87,8 +87,7 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
           role-session-name: GitHubActionsSession
-          retry-max-attempts: 2
-
+          retry-max-attempts: 2 
       # ----------------------------------------------------------
       # GET AWS ACCOUNT ID
       # ----------------------------------------------------------
@@ -98,7 +97,6 @@ jobs:
 
           echo "AWS Account ID:"
           aws sts get-caller-identity --query Account --output text
-
 
       # ----------------------------------------------------------
       # LOGIN TO AMAZON ECR
