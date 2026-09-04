@@ -304,16 +304,6 @@ jobs:
 
 
       # ----------------------------------------------------------
-      # APPLY SERVICES
-      # ----------------------------------------------------------
-      - name: Apply Kubernetes services
-        run: |
-          kubectl apply \
-            -f k8s/services.yaml \
-            -n devops-capstone
-
-
-      # ----------------------------------------------------------
       # WAIT FOR BACKEND ROLLOUT
       # ----------------------------------------------------------
       - name: Wait for backend rollout
