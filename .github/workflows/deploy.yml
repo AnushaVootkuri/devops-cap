@@ -254,13 +254,6 @@ jobs:
 
           kubectl cluster-info
 
-
-      # ----------------------------------------------------------
-      # VERIFY NAMESPACE
-      # ----------------------------------------------------------
-      - name: Verify Kubernetes namespace
-        run: |
-          kubectl get namespace devops-capstone
       # ----------------------------------------------------------
       # DEPLOY FRONTEND AND BACKENED WITH HELM
       # ----------------------------------------------------------
