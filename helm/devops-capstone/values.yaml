@@ -1,0 +1,57 @@
+namespace: devops-capstone
+
+postgres:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: "16"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  database: devopsdb
+  username: devopsuser
+  password: devopspassword
+  port: 5432
+
+backend:
+ replicaCount: 1
+
+ image:
+   repository: 293930531475.dkr.ecr.us-east-1.amazonaws.com/devops-capstone-backend
+   tag: "latest"
+   pullPolicy: Always
+
+ service:
+   type: ClusterIP
+   port: 8000
+
+ resources:
+   requests:
+     cpu: 100m
+     memory: 128Mi
+   limits:
+     cpu: 250m
+     memory: 256Mi
+
+frontend:
+ replicaCount: 1
+
+ image:
+   repository: 293930531475.dkr.ecr.us-east-1.amazonaws.com/devops-capstone-frontend
+   tag: "latest"
+   pullPolicy: Always
+
+ service:
+   type: ClusterIP
+   port: 3000
+
+ resources:
+   requests:
+     cpu: 100m
+     memory: 128Mi
+   limits:
+     cpu: 250m
+     memory: 256Mi

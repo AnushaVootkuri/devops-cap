@@ -261,67 +261,36 @@ jobs:
       - name: Verify Kubernetes namespace
         run: |
           kubectl get namespace devops-capstone
-
-
       # ----------------------------------------------------------
-      # APPLY BACKEND MANIFEST
+      # DEPLOY FRONTEND AND BACKENED WITH HELM
       # ----------------------------------------------------------
-      - name: Apply backend manifest
+      - name: Deploy with Helm
         run: |
-          kubectl apply \
-            -f k8s/backend.yaml \
-            -n devops-capstone
+          helm upgrade --install \
+            devops-capstone \
+           ./helm/devops-capstone \
+           --namespace devops-capstone \
+           --create-namespace \
+           --set backend.image.tag=${GITHUB_SHA} \
+           --set frontend.image.tag=${GITHUB_SHA}
 
-
-      # ----------------------------------------------------------
-      # DEPLOY BACKEND IMAGE
-      # ----------------------------------------------------------
-      - name: Deploy backend image
+      - name: Wait for backend
         run: |
-          kubectl set image deployment/backend \
-            backend="${BACKEND_IMAGE}:${IMAGE_TAG}" \
-            -n devops-capstone
+         kubectl rollout status \
+           deployment/backend \
+           -n devops-capstone
 
-
-      # ----------------------------------------------------------
-      # APPLY FRONTEND MANIFEST
-      # ----------------------------------------------------------
-      - name: Apply frontend manifest
+      - name: Wait for frontend
         run: |
-          kubectl apply \
-            -f k8s/frontend.yaml \
-            -n devops-capstone
+         kubectl rollout status \
+           deployment/frontend \
+           -n devops-capstone
 
-
-      # ----------------------------------------------------------
-      # DEPLOY FRONTEND IMAGE
-      # ----------------------------------------------------------
-      - name: Deploy frontend image
+      - name: Helm test
         run: |
-          kubectl set image deployment/frontend \
-            frontend="${FRONTEND_IMAGE}:${IMAGE_TAG}" \
-            -n devops-capstone
-
-
-      # ----------------------------------------------------------
-      # WAIT FOR BACKEND ROLLOUT
-      # ----------------------------------------------------------
-      - name: Wait for backend rollout
-        run: |
-          kubectl rollout status deployment/backend \
-            -n devops-capstone \
-            --timeout=180s
-
-
-      # ----------------------------------------------------------
-      # WAIT FOR FRONTEND ROLLOUT
-      # ----------------------------------------------------------
-      - name: Wait for frontend rollout
-        run: |
-          kubectl rollout status deployment/frontend \
-            -n devops-capstone \
-            --timeout=180s
-
+         helm test \
+           devops-capstone \
+           -n devops-capstone
 
       # ----------------------------------------------------------
       # FINAL DEPLOYMENT VERIFICATION
