@@ -263,7 +263,6 @@ jobs:
             devops-capstone \
            ./helm/devops-capstone \
            --namespace devops-capstone \
-           --create-namespace \
            --set backend.image.tag=${GITHUB_SHA} \
            --set frontend.image.tag=${GITHUB_SHA}
 
