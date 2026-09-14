@@ -12,9 +12,9 @@ resource "aws_eks_cluster" "main" {
   }
 
   access_config {
-  authentication_mode = "API_AND_CONFIG_MAP"
+    authentication_mode = "API_AND_CONFIG_MAP"
   }
-  
+
   depends_on = [
     aws_iam_role_policy_attachment.eks_cluster_policy
   ]
@@ -94,9 +94,9 @@ resource "aws_eks_node_group" "main" {
   capacity_type = "ON_DEMAND"
 
   scaling_config {
-    desired_size = 1
-    min_size     = 1
-    max_size     = 1
+    desired_size = 2
+    min_size     = 2
+    max_size     = 2
   }
 
   depends_on = [
