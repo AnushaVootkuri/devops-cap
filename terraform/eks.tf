@@ -94,14 +94,15 @@ resource "aws_eks_node_group" "main" {
   capacity_type = "ON_DEMAND"
 
   scaling_config {
-    desired_size = 2
+    desired_size = 3
     min_size     = 2
-    max_size     = 2
+    max_size     = 3
   }
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_worker_node,
     aws_iam_role_policy_attachment.eks_cni,
-    aws_iam_role_policy_attachment.eks_ecr
+    aws_iam_role_policy_attachment.eks_ecr,
+    aws_internet_gateway.main
   ]
 }

@@ -1,0 +1,10 @@
+grafana:
+  service:
+    type: ClusterIP
+
+prometheus:
+  prometheusSpec:
+    retention: 2d
+
+alertmanager:
+  enabled: true
